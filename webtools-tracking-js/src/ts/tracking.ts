@@ -7,6 +7,8 @@
     webtools.Context.MINUTE = 60 * 1000;
 
     tracking.init = function (host : string, site : string, page : string) {
+        // remove old request id
+        webtools.Cookie.remove("_tma_rid");
         webtools.Context.site = site;
         webtools.Context.page = page;
         webtools.Context.host = host;
