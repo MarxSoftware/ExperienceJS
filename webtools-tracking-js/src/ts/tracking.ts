@@ -7,13 +7,11 @@
     webtools.Context.MINUTE = 60 * 1000;
 
     tracking.init = function (host : string, site : string, page : string) {
-        // remove old request id
-        webtools.Cookie.remove("_tma_rid");
         webtools.Context.site = site;
         webtools.Context.page = page;
         webtools.Context.host = host;
         webtools.Context.uid = "";			// the userid
-        webtools.Context.rid = "";			// the requestid
+        webtools.Context.rid = webtools.Tools.uuid();			// the requestid
         webtools.Context.vid = "";			// the visitid
         webtools.Context.pixelImage = new Image();
     };
@@ -34,7 +32,7 @@
     }
 
     let createDefaultParameters = function () {
-        webtools.Context.rid = getUniqueID("_tma_rid", 3 * webtools.Context.MINUTE);
+        //webtools.Context.rid = getUniqueID("_tma_rid", 3 * webtools.Context.MINUTE);
         webtools.Context.vid = getUniqueID("_tma_vid", 1 * webtools.Context.HOUR);
         webtools.Context.uid = getUniqueID("_tma_uid", 365 * webtools.Context.DAY, window.localStorage);
         var currentDate = new Date();
