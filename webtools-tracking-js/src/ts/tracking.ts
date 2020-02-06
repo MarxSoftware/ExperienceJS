@@ -6,10 +6,11 @@
     webtools.Context.HOUR = 60 * 60 * 1000;
     webtools.Context.MINUTE = 60 * 1000;
 
-    tracking.init = function (host : string, site : string, page : string) {
+    tracking.init = function (host : string, site : string, page : string, type : string) {
         webtools.Context.site = site;
         webtools.Context.page = page;
         webtools.Context.host = host;
+        webtools.Context.type = type
         webtools.Context.uid = "";			// the userid
         webtools.Context.rid = webtools.Tools.uuid();			// the requestid
         webtools.Context.vid = "";			// the visitid
@@ -38,6 +39,7 @@
         var currentDate = new Date();
         return "&site=" + webtools.Context.site
             + "&page=" + webtools.Context.page
+            + "&type=" + webtools.Context.type
             + "&uid=" + webtools.Context.uid
             + "&reqid=" + webtools.Context.rid
             + "&vid=" + webtools.Context.vid
@@ -88,17 +90,9 @@
     
 
     tracking.register = function () {
-        // opt-out cookie is not set
-        // incude tracking pixle
-        // user id
-        //webtools.Context.uid = getUniqueID("_tma_uid", 365 * webtools.Context.DAY);
-        // visit id
-        //webtools.Context.vid = getUniqueID("_tma_vid", 1 * webtools.Context.HOUR);
-        // new requestid for every request
-        //webtools.Context.rid = webtools.Tools.uuid();
-        //webtools.Cookie.setCookie("_tma_rid", webtools.Context.rid, 3 * webtools.Context.MINUTE);
-
-        tracking.track("pageview");
+        if (!tracking.dnt()) {
+            tracking.track("pageview");
+        }
     };
 
     let send = function (url: string, data: any) {

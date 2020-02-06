@@ -6,6 +6,7 @@ interface Context {
 
     site : string;
     page : string;
+    type : string;
     host : string;
     uid : string;
     rid : string;
