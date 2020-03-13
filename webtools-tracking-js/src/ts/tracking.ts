@@ -35,7 +35,7 @@
     let createDefaultParameters = function () {
         //webtools.Context.rid = getUniqueID("_tma_rid", 3 * webtools.Context.MINUTE);
         webtools.Context.vid = getUniqueID("_tma_vid", 1 * webtools.Context.HOUR);
-        webtools.Context.uid = getUniqueID("_tma_uid", 365 * webtools.Context.DAY, window.localStorage);
+        webtools.Context.uid = getUniqueID("_tma_uid", 365 * webtools.Context.DAY);
         var currentDate = new Date();
         return "&site=" + webtools.Context.site
             + "&page=" + webtools.Context.page
@@ -71,18 +71,12 @@
         }
         return customParameterString;
     };
-    let getUniqueID = function (cookiename : string, expire : number, uidStorage?: any) {
+    let getUniqueID = function (cookiename : string, expire : number) {
         var aid = webtools.Cookie.get(cookiename);
         if (aid === null || aid === "") {  
-            if (uidStorage && uidStorage.getItem(cookiename) !== null) {
-                aid = localStorage.getItem(cookiename);
-            } else {
-                aid = webtools.Tools.uuid();
-            }
+            aid = webtools.Tools.uuid();
         }
-        if (uidStorage) {
-            uidStorage.setItem(cookiename, aid);
-        }
+        
         // update cookie on every request
         webtools.Cookie.set(cookiename, aid, expire);
         return aid;
